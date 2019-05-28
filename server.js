@@ -3,7 +3,7 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const fs = require('fs');
-const port = 3000;
+const port = 3030;
 
 /* ==== objektet ======
 const chat = {
@@ -20,7 +20,7 @@ const chat = {
 app.use(express.json());
 
 app.get('/', (req,res) => {
-    res.sendFile( 'C:/Users/jiner/Desktop/EC/backend/labbar/public/index.html')
+    res.send('hello World')
 });
 
 io.on('connection', (socket) => {
