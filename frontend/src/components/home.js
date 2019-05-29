@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { Link, Redirect } from "react-router-dom";
 import Rooms from './rooms.js'
-import axios from 'axios'
 import '../App.css';
 
 
@@ -9,7 +8,7 @@ import '../App.css';
 const Home = () => {
 	const [userName, updateUserName] = useState('');
 	const [error, updateError] = useState('');
-	const [isLoggedIn, updateIsLoggedIn] = useState(false)
+	const [isLoggedIn, updateIsLoggedIn] = useState(true) //ändra till false
 
 	const handleUserName = (e) => {
 		updateUserName(e.target.value)
