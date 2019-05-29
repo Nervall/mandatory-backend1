@@ -48,7 +48,17 @@ const Rooms = (props) => {
 			</>
 			)}
 
-		let renderChat = (data) => {
+		let renderChat = (data) => (
+				<>{ data.activity.map(item => 
+					<>
+					<div>{ item.user }</div>
+					<div>{ item.message }</div>
+					</>
+					)}
+				</>
+		)
+		
+		/*{
 			let arr = []
 			for(let i = 0; i < data.activity.length; i++) {
 				 arr.push(data.activity[i].user)
@@ -59,10 +69,10 @@ const Rooms = (props) => {
 					<div>{ arr }</div>
 				</>
 			)}
-
+*/
 		let mapRooms = data.map(renderRooms)
 		let mapChat = data.map(renderChat)
-
+			
 
   return (
 		<>
