@@ -26,16 +26,14 @@ const Rooms = (props) => {
 		let users = () => {
 			let arr = data;
 			for (let i = 0; i < arr.length; i++) {
-				console.log(arr[i]);
-				console.log(arr[i].activity);
-				let obj = Object.entries(arr[i].activity)
-				console.log(obj)
+				console.log(arr[i].room);
+				console.log(arr[i].roomid);
+				let obj = arr[i].activity
 				for (let j = 0; j < obj.length; j++) {
 					console.log(obj[j])
-
+					console.log(obj[j].user)
+					console.log(obj[j].message)
 				}
-				
-			//return arr[i];
 			}
 		}
 
@@ -50,7 +48,20 @@ const Rooms = (props) => {
 			</>
 			)}
 
+		let renderChat = (data) => {
+			let arr = []
+			for(let i = 0; i < data.activity.length; i++) {
+				 arr.push(data.activity[i].user)
+				 arr.push(data.activity[i].message)
+			}
+			return(
+				<>
+					<div>{ arr }</div>
+				</>
+			)}
+
 		let mapRooms = data.map(renderRooms)
+		let mapChat = data.map(renderChat)
 
 
   return (
@@ -67,7 +78,9 @@ const Rooms = (props) => {
 			</div>
 		</aside>
 		<main>
-			<div className='rooms-main-wrapper'>Det här är main</div>
+			<div className='rooms-main-wrapper'>Det här är main
+			{ mapChat }
+			</div>
 		</main>
 		</>
   );

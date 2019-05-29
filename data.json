@@ -3,14 +3,14 @@
         "room": "Room1",
         "activity": [
             { "user": "Jim", "message": "hey" },
-            { "user": "Catja", "message": "hej igen" }
+            { "user": "Pelle", "message": "hej igen" }
         ]
     },
     { "roomid": "2", 
         "room": "Room2",
         "activity": [
             { "user": "Jim", "message": "hey" },
-            { "user": "Catja", "message": "hej igen" }
+            { "user": "Pelle", "message": "hej igen" }
         ]
     }
 ]
