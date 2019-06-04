@@ -1,45 +1,54 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
 import '../App.css';
-const socket = io('/room');
+//const socket = io('/rooms');
 
 
 
 const Rooms = (props) => {
 	const [data, updateData] = useState([]);
+	const [newRoomName, updateNewRoomName] = useState('')
+	const inputRoom = useRef(null)
 
 	useEffect(() => {
-		axios.get('/rooms')
+		axios.get('/rooms', {headers: {"Content-Type": "application/json"}})
 			.then((response) => {
-				console.log(response.data.rooms)
+				//console.log(response.data.rooms)
 				updateData(response.data.rooms);
 			})
 			.catch((error) => {
 				console.log(error);
 			})
-  }, [data]);
+  }, []);
 		
 		const user = props.user;
-		console.log(data)
-/*
-		let users = () => {
-			let arr = data;
-			for (let i = 0; i < arr.length; i++) {
-				console.log(arr[i].room);
-				console.log(arr[i].roomid);
-				let obj = arr[i].chat
-				for (let j = 0; j < obj.length; j++) {
-					console.log(obj[j])
-					console.log(obj[j].user)
-					console.log(obj[j].message)
-				}
-			}
-		}
+		//console.log(data)
 
-		users();
-*/
+	const roomName = (e) => {
+		let roomValue = e.target.value;
+		if (!roomValue || roomValue.length < 1) {
+			console.log('error')
+		return;
+		} else {
+			updateNewRoomName(roomValue)
+		}
+	}
+
+
+		const createRoom = () => {
+			axios.post('/rooms/', {name: newRoomName},{ headers: {"Content-Type": "application/json" }})
+			.then((response) => {
+				updateData(response.data.rooms)
+				updateNewRoomName('');
+				inputRoom.current.value = '';
+				})
+			.catch((error) => {
+				console.log(error);
+			})
+	} 
+
 		let renderRooms = (data) => {
 			return(
 				<>
@@ -63,29 +72,7 @@ const Rooms = (props) => {
 				//}
 			}
 		}
-				/*
-		let renderChat = (data) => (
-				<>{ data.activity.map(item => 
-					<>
-					<div>{ item.user }</div>
-					<textarea>{ item.message }</textarea>
-					</>
-					)}
-				</>
-		)
-		
-		{
-			let arr = []
-			for(let i = 0; i < data.chat.length; i++) {
-				 arr.push(data.chat[i].user)
-				 arr.push(data.chat[i].message)
-			}
-			return(
-				<>
-					<div>{ arr }</div>
-				</>
-			)}
-*/
+
 		let mapRooms = data.map(renderRooms)
 		let mapChat = data.map(renderChat)
 			
@@ -97,8 +84,8 @@ const Rooms = (props) => {
 		</header>
 		<aside>
 			<div className='rooms-aside-wrapper'>
-				<input type='text' placeholder='Room name'></input><br />
-				<button>Create new Room</button><br />
+				<input onChange={ roomName } ref={ inputRoom } type='text' placeholder='Room name'></input><br />
+				<button onClick={ createRoom }>Create new Room</button><br />
 				<h3>Rooms</h3>
 				{ mapRooms }
 			</div>

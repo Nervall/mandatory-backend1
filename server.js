@@ -67,8 +67,8 @@ app.post('/rooms/', (req, res) => {
       name: body.name,
       chat: []
     };
-    data.rooms.push(room)
-	  res.status(201).json({room});
+    data.rooms.push({room})
+	  res.status(201).json(data);
 });
 
 app.delete('/rooms/:id', (req, res) => {
