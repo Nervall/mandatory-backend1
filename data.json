@@ -1,16 +1,25 @@
- [
-    { "roomid": "1", 
-        "room": "Room1",
-        "activity": [
-            { "user": "Jim", "message": "hey" },
-            { "user": "Pelle", "message": "hej igen" }
-        ]
+{
+  "rooms": [
+    { "room" : {
+				"id": 1, 
+				"name": "Room1",
+				"chat": [
+						{ "user": "Jim", "message": "hey 1" },
+						{ "user": "Pelle", "message": "hej igen 2" }
+						]
+				}
     },
-    { "roomid": "2", 
-        "room": "Room2",
-        "activity": [
-            { "user": "Jim", "message": "hey" },
-            { "user": "Pelle", "message": "hej igen" }
-        ]
+		{ "room" : {
+			"id": 2, 
+			"name": "Room2",
+			"chat": [
+					{ "user": "Anders", "message": "hey babariba" },
+					{ "user": "Agon", "message": "Yo whats up" }
+					]
+			}
     }
-]
+    ]
+ }
+
+ 
+

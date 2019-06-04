@@ -11,9 +11,10 @@ const Rooms = (props) => {
 	const [data, updateData] = useState([]);
 
 	useEffect(() => {
-		axios.get('/room')
+		axios.get('/rooms')
 			.then((response) => {
-				updateData(response.data.data);
+				console.log(response.data.rooms)
+				updateData(response.data.rooms);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -22,13 +23,13 @@ const Rooms = (props) => {
 		
 		const user = props.user;
 		console.log(data)
-
+/*
 		let users = () => {
 			let arr = data;
 			for (let i = 0; i < arr.length; i++) {
 				console.log(arr[i].room);
 				console.log(arr[i].roomid);
-				let obj = arr[i].activity
+				let obj = arr[i].chat
 				for (let j = 0; j < obj.length; j++) {
 					console.log(obj[j])
 					console.log(obj[j].user)
@@ -38,31 +39,46 @@ const Rooms = (props) => {
 		}
 
 		users();
-
+*/
 		let renderRooms = (data) => {
 			return(
 				<>
-			<ul key={ data.roomid }>
-				<li key={ data.roomid }> <Link to="/"> { data.room } </Link></li>
+			<ul key={ data.room.id }>
+				<li key={ data.room.id }> <Link to="/"> { data.room.name } </Link></li>
 			</ul>
 			</>
 			)}
 
+		let renderChat = (data) => {
+			//for (let obj in data.room) {
+				//console.log(obj)
+				for(let value of data.room.chat) {
+				console.log(value)
+				return(
+					<>
+					<div>{ value.user }</div>
+					<textarea>{ value.message }</textarea>
+					</>
+				)
+				//}
+			}
+		}
+				/*
 		let renderChat = (data) => (
 				<>{ data.activity.map(item => 
 					<>
 					<div>{ item.user }</div>
-					<div>{ item.message }</div>
+					<textarea>{ item.message }</textarea>
 					</>
 					)}
 				</>
 		)
 		
-		/*{
+		{
 			let arr = []
-			for(let i = 0; i < data.activity.length; i++) {
-				 arr.push(data.activity[i].user)
-				 arr.push(data.activity[i].message)
+			for(let i = 0; i < data.chat.length; i++) {
+				 arr.push(data.chat[i].user)
+				 arr.push(data.chat[i].message)
 			}
 			return(
 				<>
