@@ -9,8 +9,9 @@ import '../App.css';
 
 const Rooms = (props) => {
 	const [data, updateData] = useState([]);
-	const [newRoomName, updateNewRoomName] = useState('')
-	const inputRoom = useRef(null)
+	const [chatData, updateChatData] = useState([]);
+	const [newRoomName, updateNewRoomName] = useState('');
+	const inputRoom = useRef(null);
 
 	useEffect(() => {
 		axios.get('/rooms', {headers: {"Content-Type": "application/json"}})
@@ -36,6 +37,19 @@ const Rooms = (props) => {
 		}
 	}
 
+	const getRoomChat = (e) => {
+		let id = parseInt(e.target.id);
+		axios.get('/rooms/'+id , {headers: {"Content-Type": "application/json"}})
+			.then((response) => {
+				let data = (response.data.room.chat)
+				console.log(data)
+				updateChatData(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+	}
+
 
 		const createRoom = () => {
 			axios.post('/rooms/', {name: newRoomName},{ headers: {"Content-Type": "application/json" }})
@@ -50,23 +64,25 @@ const Rooms = (props) => {
 	} 
 
 		let renderRooms = (data) => {
+			//console.log(data.room.id)
 			return(
 				<>
 			<ul key={ data.room.id }>
-				<li key={ data.room.id }> <Link to="/"> { data.room.name } </Link></li>
+				<li key={ data.room.id }> <Link to="/" onClick={ getRoomChat } id={data.room.id}> { data.room.name } </Link></li>
 			</ul>
 			</>
 			)}
 
-		let renderChat = (data) => {
-			//for (let obj in data.room) {
-				//console.log(obj)
-				for(let value of data.room.chat) {
-				console.log(value)
+		let renderChat = (chatData) => {
+			//console.log(chatData)
+				 //const value = Object.entries(chatData)
+				 //console.log(value)
+				for(let chat in chatData) {
+				console.log(chatData.user)
 				return(
 					<>
-					<div>{ value.user }</div>
-					<textarea>{ value.message }</textarea>
+					<div>{ chatData.user }</div>
+					<div>{ chatData.message }</div>
 					</>
 				)
 				//}
@@ -74,7 +90,7 @@ const Rooms = (props) => {
 		}
 
 		let mapRooms = data.map(renderRooms)
-		let mapChat = data.map(renderChat)
+		let mapChat = chatData.map(renderChat)
 			
 
   return (
