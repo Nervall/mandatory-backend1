@@ -6,9 +6,17 @@ const fs = require('fs');
 
 app.use(express.json());
 const data = require('./data.json')
-//console.log(data)
 
-let counter = 1;
+
+fs.readFile('./data.json', 'utf-8', (err, data) => {
+	if (err) {
+		console.log(err)
+	}
+  data = JSON.parse(data);
+  });
+console.log(data)
+
+let counter = 3;
 function getID() {
   return counter++;
 }
@@ -68,7 +76,12 @@ app.post('/rooms/', (req, res) => {
       chat: []
     };
     data.rooms.push({room})
-	  res.status(201).json(data);
+    fs.writeFile('data.json', JSON.stringify(data), 'utf-8', (err) => {
+      if (err) {
+        console.log(err)
+      }
+        res.status(201).json(data);
+      });
 });
 
 app.delete('/rooms/:id', (req, res) => {
@@ -81,7 +94,12 @@ app.delete('/rooms/:id', (req, res) => {
     if (roomIndex !== -1) {
       data.rooms.splice(roomIndex, 1);
       } 
-      res.status(204).end();
+      fs.writeFile('data.json', JSON.stringify(data), 'utf-8', (err) => {
+        if (err) {
+          console.log(err)
+        }
+        res.status(204).end();
+        });  
 });
 
 

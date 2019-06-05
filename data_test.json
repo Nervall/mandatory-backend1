@@ -1,106 +1,23 @@
+
 {
-  "room": [
-    { "id": 1, 
-			"name": "Room1",
-			"chat": [
-					{ "user": "Jim", "message": "hey 1" },
-					{ "user": "Pelle", "message": "hej igen 2" }
-					]
-    },
-    { "id": 2, 
-			"name": "Room2",
-			"chat": [
-					{ "user": "Anders", "message": "hey 3" },
-					{ "user": "John", "message": "hej igen 4" }
-			]
-    }
-    ]
- }
-
- {
-  "data": [
-    { "roomid": 1, 
-        "room": "Room1",
-        "chat": [
-            { "user": "Jim", "message": "hey 1" },
-            { "user": "Pelle", "message": "hej igen 2" }
-        ]
-    },
-    { "roomid": 2, 
-        "room": "Room2",
-        "chat": [
-            { "user": "Anders", "message": "hey 3" },
-            { "user": "John", "message": "hej igen 4" }
-        ]
-    }
-    ]
- }
-
-
-myObj = {
-	"name":"John",
-	"age":30,
-	"cars": [
-	  { "name":"Ford", "models":[ "Fiesta", "Focus", "Mustang" ] },
-	  { "name":"BMW", "models":[ "320", "X3", "X5" ] },
-	  { "name":"Fiat", "models":[ "500", "Panda" ] }
-	]
+    "rooms": [
+      { "room" : {
+                  "id": 1, 
+                  "name": "Room1",
+                  "chat": [
+                          { "user": "Jim", "message": "hey 1" },
+                          { "user": "Pelle", "message": "hej igen 2" }
+                          ]
+                  }
+      },
+          { "room" : {
+              "id": 2, 
+              "name": "Room2",
+              "chat": [
+                      { "user": "Anders", "message": "hey babariba" },
+                      { "user": "Agon", "message": "Yo whats up" }
+                      ]
+              }
+      }
+      ]
    }
-
-   for (i in myObj.cars) {
-	myObj.cars[i].name 
-	for (j in myObj.cars[i].models) {
-	 	myObj.cars[i].models[j];
-	}
-  }
-
-  var dictionary = {
-	  	"data":
-				[	{"id":"0","name":"ABC"},
-					{"id":"1", "name":"DEF"}
-				], 
-		"images": 	
-				[{"id":"0","name":"PQR"},
-				{"id":"1","name":"xyz"}]};
-				}
-for (item in dictionary) {
-  for (subItem in dictionary[item]) {
-     console.log(dictionary[item][subItem]);
-  }
-}
-
-
-{
-    "data": [
-        {
-            "room": {
-                "room1": {
-                    "user": {
-                        "id": 1,
-                        "name": "Jonas",
-                        "status": true
-                    },
-                    "message": {
-                        "username": "Jonas",
-                        "msg": "My name is Thrall!"
-                    }
-                },
-                "room2": {
-                    "user": {
-                        "id": 1,
-                        "name": "Trall",
-                        "status": true
-                    },
-                    "message": {
-                        "username": "Trall",
-                        "msg": "You are lying douchebag "
-                    }
-                }
-            }
-        }
-    ]
-}
-© 2019 GitHub, Inc.
-
-
-
