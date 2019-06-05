@@ -22,7 +22,7 @@ const Rooms = (props) => {
 			.catch((error) => {
 				console.log(error);
 			})
-  }, []);
+  }, [data]);
 		
 		const user = props.user;
 		//console.log(data)
@@ -42,13 +42,25 @@ const Rooms = (props) => {
 		axios.get('/rooms/'+id , {headers: {"Content-Type": "application/json"}})
 			.then((response) => {
 				let data = (response.data.room.chat)
-				console.log(data)
 				updateChatData(data);
 			})
 			.catch((error) => {
 				console.log(error);
 			})
 	}
+
+	const deleteRoom = (e) => {
+		let id = parseInt(e.target.id);
+		console.log(id)
+		axios.delete('/rooms/'+id , {headers: {"Content-Type": "application/json"}})
+			.then((response) => {
+				updateData(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+	}
+
 
 
 		const createRoom = () => {
@@ -68,17 +80,13 @@ const Rooms = (props) => {
 			return(
 				<>
 			<ul key={ data.room.id }>
-				<li key={ data.room.id }> <Link to="/" onClick={ getRoomChat } id={data.room.id}> { data.room.name } </Link></li>
+				<li key={ data.room.id }> <Link to="/" onClick={ getRoomChat } id={data.room.id}> { data.room.name } </Link><span id={ data.room.id } onClick={ deleteRoom }> x</span></li>
 			</ul>
 			</>
 			)}
 
 		let renderChat = (chatData) => {
-			//console.log(chatData)
-				 //const value = Object.entries(chatData)
-				 //console.log(value)
 				for(let chat in chatData) {
-				console.log(chatData.user)
 				return(
 					<>
 					<div>{ chatData.user }</div>
