@@ -160,18 +160,26 @@ io.on('connection', (socket) => {
       socket.username = username;
       console.log(username+ ' connected')
     })
-    socket.on('new message', (data) => {
-      console.log(data)
-      //socket.emit('new message', {
-        //user: data.user,
-        //message: data.message
-      //});
-      
+    socket.on('new message', (message) => {
+      //console.log(message)
+      //console.log(message.id)
+      console.log(message.chat)
+      let id = message.id
+      //console.log(data)
+      let roomIndex = data.rooms.find(x => x.room.id === id) 
+        if (roomIndex !== -1) {
+        console.log(roomIndex.room)
+        console.log(roomIndex.room.chat)
+        //console.log(data.rooms)
+        let test = roomIndex.room.chat
+        test.push(message.chat)
+        //test.push(message.chat)
+        //console.log(test)
+        console.log(roomIndex.room.chat)
+        console.log(roomIndex.room)
+      } 
     });
   
-    //socket.on('message', (msg) => {
-      //console.log('message: ' + msg);
-    //})
     socket.on('disconnect', () => {
       console.log('user disconnected')
     })

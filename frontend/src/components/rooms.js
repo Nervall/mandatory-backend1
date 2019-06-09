@@ -9,12 +9,16 @@ import '../App.css';
 
 const Rooms = (props) => {
 	const [data, updateData] = useState([]);
+	const [roomData, updateRoomData] = useState(null)
 	//const [chatMessage, updateChatMessage] = useState([])
 	const [chatData, updateChatData] = useState([]);
 	const [chatText, updateChatText] = useState('')
 	const [newRoomName, updateNewRoomName] = useState('');
 	const inputRoom = useRef(null);
 	const chatWindow = useRef(null);
+
+	//let roomId;
+	//let NameOfRoom;
 
 	useEffect(() => {
 		axios.get('/rooms', {headers: {"Content-Type": "application/json"}})
@@ -53,10 +57,11 @@ useEffect(() => {
 		let id = parseInt(e.target.id);
 		axios.get('/rooms/'+id , {headers: {"Content-Type": "application/json"}})
 			.then((response) => {
-				let data = (response.data.room.chat)
-				console.log(data)
-				console.log(response.data.room) // får id {id: 1, name: "room", chat : []}
-				updateChatData(data);
+				let roomData = (response.data.room.chat)
+				console.log(roomData)
+				console.log(response.data.room) 
+				updateChatData(roomData);
+				updateRoomData(response.data.room)
 			})
 			.catch((error) => {
 				console.log(error);
@@ -99,13 +104,20 @@ useEffect(() => {
 		}
 
 		const sendMessage = (e) => {
+			// får id {id: 1, name: "room", chat : []}
 			const socket = io();
 			socket.emit('add user', user);
-			socket.emit('new message', {
-				user: user,
-				message: chatText },
-				updateChatData([...chatData, {user: user, message: chatText} ])
-				)
+			//console.log(roomData.id)
+			let data = {
+				id: roomData.id,
+				name: roomData.name,
+				chat: 
+					{user: user, message: chatText}
+				
+
+			}
+			socket.emit('new message', data)
+			updateChatData([...chatData, {user: user, message: chatText} ])		
 		} 
 		
 
@@ -146,7 +158,7 @@ useEffect(() => {
 		let mapChat = chatData.map(renderChat)
 		let users = chatData.map(renderUser);
 		//console.log(chatData)	
-
+		//console.log(roomData)
   return (
 		<>
 		<header className='rooms-header-wrapper'>
