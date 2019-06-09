@@ -1,15 +1,17 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-//import io from 'socket.io-client';
+import io from 'socket.io-client';
 import '../App.css';
-//const socket = io('/rooms');
+//let socket = io('/rooms');
 
 
 
 const Rooms = (props) => {
 	const [data, updateData] = useState([]);
+	//const [chatMessage, updateChatMessage] = useState([])
 	const [chatData, updateChatData] = useState([]);
+	const [chatText, updateChatText] = useState('')
 	const [newRoomName, updateNewRoomName] = useState('');
 	const inputRoom = useRef(null);
 	const chatWindow = useRef(null);
@@ -22,10 +24,20 @@ const Rooms = (props) => {
 			.catch((error) => {
 				console.log(error);
 			})
-  }, []);
-		
-		const user = props.user;
-		//console.log(data)
+		}, []);
+
+/*
+useEffect(() => {
+			socket =io('/rooms')
+				socket.on('new_message', (data) => {
+					console.log(data)
+					updateChatData([...chatData, data])
+				});
+			}, []);
+*/	
+	const user = props.user;
+	//console.log(data)
+
 
 	const roomName = (e) => {
 		let roomValue = e.target.value;
@@ -42,6 +54,8 @@ const Rooms = (props) => {
 		axios.get('/rooms/'+id , {headers: {"Content-Type": "application/json"}})
 			.then((response) => {
 				let data = (response.data.room.chat)
+				console.log(data)
+				console.log(response.data.room) // får id {id: 1, name: "room", chat : []}
 				updateChatData(data);
 			})
 			.catch((error) => {
@@ -53,14 +67,10 @@ const Rooms = (props) => {
 		let id = parseInt(e.target.id);
 		console.log(id)
 		axios.delete('/rooms/'+id , {headers: {"Content-Type": "application/json"}})
-			/*.then((response) => {
-				updateData(data);
-				chatWindow.current.value = '';
-			})*/
 			.then(response => {
 				const newData = [...data]
     		for(let i = 0; i < newData.length; i++){
-      		if (i === id-1){
+      		if (newData[i].room.id === id){
 					newData.splice(i, 1)
       } 
     }  
@@ -83,6 +93,22 @@ const Rooms = (props) => {
 			})
 	} 
 
+		const handleText = (e) => {
+			let mess = e.target.value
+			updateChatText(mess)
+		}
+
+		const sendMessage = (e) => {
+			const socket = io();
+			socket.emit('add user', user);
+			socket.emit('new message', {
+				user: user,
+				message: chatText },
+				updateChatData([...chatData, {user: user, message: chatText} ])
+				)
+		} 
+		
+
 		let renderRooms = (data) => {
 			//console.log(data.room.id)
 			return(
@@ -92,26 +118,34 @@ const Rooms = (props) => {
 
 			)}
 
-		let renderChat = (chatData) => {
-			if(!chatData) {
-				return(
-					<div>No content</div>
-				)
-			} else {
+			let renderChat = (chatData) => {
 				for(let chat in chatData) {
-				return(
-					<div ref={ chatWindow }>
-					<div>{ chatData.user }</div>
-					<div>{ chatData.message }</div>
-					</div>
-				)
+					return(
+						<div ref={ chatWindow }>
+						<div>{ chatData.user }</div>
+						<div>{ chatData.message }</div>
+						</div>
+					)
+				}
+				//socket.on('new message', (data))
+				//console.log(data)
 			}
+
+		let renderUser = (chatData) => {
+			for(let chat in chatData) {
+				//console.log(chatData)
+				return(
+					<ul>
+						<li>{ chatData.user }</li>
+					</ul>
+				)
 			}
 		}
 
 		let mapRooms = data.map(renderRooms)
 		let mapChat = chatData.map(renderChat)
-			
+		let users = chatData.map(renderUser);
+		//console.log(chatData)	
 
   return (
 		<>
@@ -120,7 +154,7 @@ const Rooms = (props) => {
 		</header>
 		<aside>
 			<div className='rooms-aside-wrapper'>
-				<input onChange={ roomName } ref={ inputRoom } type='text' placeholder='Room name'></input><br />
+				<input onChange={ roomName } ref={ inputRoom } type='text' placeholder='Room name' /><br />
 				<button onClick={ createRoom }>Create new Room</button><br />
 				<h3>Rooms</h3>
 				{ mapRooms }
@@ -128,9 +162,16 @@ const Rooms = (props) => {
 		</aside>
 		<main>
 			<div className='rooms-main-wrapper'>Det här är main
-			<div>{ mapChat }</div>
+			<div className='rooms-main-chat-wrapper'>{ mapChat }</div>
+			<div className='rooms-main-chat-input'>
+				<input type="text" onChange={ handleText } /><button onClick={ sendMessage }>Send message</button>
+			</div>
 			</div>
 		</main>
+		<aside className='rooms-aside-right-wrapper'>
+			<h3>Users</h3>
+				{ users }
+		</aside>
 		</>
   );
 }

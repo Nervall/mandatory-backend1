@@ -8,11 +8,10 @@ import '../App.css';
 const Home = () => {
 	const [userName, updateUserName] = useState('');
 	const [error, updateError] = useState('');
-	const [isLoggedIn, updateIsLoggedIn] = useState(true) //ändra till false
+	const [isLoggedIn, updateIsLoggedIn] = useState(false) //ändra till false
 
 	const handleUserName = (e) => {
 		updateUserName(e.target.value)
-		console.log(userName)
 	}
 
 	const handleClick = (e) => {

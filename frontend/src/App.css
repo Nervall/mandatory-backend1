@@ -34,5 +34,25 @@
 .rooms-main-wrapper {
   border: 1px solid black;
   float: left;
+  width: 500px;
+  height: 400px;
+  padding: 10px;
+}
+
+.rooms-main-chat-wrapper {
+  border: 1px solid red;
+  height: 300px;
+  overflow: auto;
+}
+
+.rooms-main-chat-input {
+  height: 70px;
+  border: 1px solid blue;
+}
+
+.rooms-aside-right-wrapper {
+  border: 1px solid green;
+  float: left;
+  width: 200px;
   padding: 10px;
 }
