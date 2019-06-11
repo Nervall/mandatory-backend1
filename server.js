@@ -158,25 +158,28 @@ io.on('connection', (socket) => {
 
     socket.on('add user', (username) => {
       socket.username = username;
-      console.log(username+ ' connected')
     })
     socket.on('new message', (message) => {
-      //console.log(message)
-      //console.log(message.id)
-      console.log(message.chat)
+      console.log(message)
+      io.emit('new message', message.chat )
       let id = message.id
-      //console.log(data)
+
       let roomIndex = data.rooms.find(x => x.room.id === id) 
         if (roomIndex !== -1) {
-        console.log(roomIndex.room)
-        console.log(roomIndex.room.chat)
+        //console.log(roomIndex.room)
+        //console.log(roomIndex.room.chat)
         //console.log(data.rooms)
         let test = roomIndex.room.chat
         test.push(message.chat)
-        //test.push(message.chat)
         //console.log(test)
-        console.log(roomIndex.room.chat)
-        console.log(roomIndex.room)
+        //console.log(roomIndex.room.chat)
+          //console.log(data)
+         
+         fs.writeFile('data.json', JSON.stringify(data), 'utf-8', (err) => {
+          if (err) {
+            console.log(err)
+          }
+          })        
       } 
     });
   
