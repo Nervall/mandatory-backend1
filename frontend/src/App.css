@@ -8,9 +8,9 @@ ul {
 }
 
 .home-wrapper {
+  position: relative;
   width: 100%;
   height: 100%;
-  background-color: rgb(15, 219, 219);
 }
 
 .home-form-wrapper {
@@ -18,40 +18,141 @@ ul {
   top: 200px;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgb(79, 172, 253);
-  width: 350px;
+  background-color: rgb(160, 8, 190);
+  width: 400px;
   height: 250px;
   text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+  color: #ffffff;
 }
 
 .rooms-header-wrapper {
-  background-color: aquamarine;
+  background-color: rgb(160, 8, 190);
   height: 120px;
+  color: #ffffff;
+}
+
+.rooms-header-logo-wrapper {
+  width: 300px;
+  padding: 30px 10px;
+  font-size: 12px;
+}
+
+.rooms-header-heading {
+  font-size: 24px;
+}
+ 
+.home-form-label {
+  font-size: 16px;
+  color: white;
+}
+
+.home-form-input {
+  height: 30px;
+  width: 250px;
+  margin-top: 50px;
+  font-size: 16px;
+  border-radius: 3px;
+  border: 0;
+  padding-left: 5px;
+}
+
+.home-form-button {
+  border: 2px solid white;
+  background-color: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  height: 35px;
+  width: 150px;
+  text-transform: uppercase;
+  margin-top: 15px;
+  outline: 0;
+}
+
+.home-form-button:hover {
+  background-color: rgb(180, 9, 214);
+
 }
 
 .rooms-aside-wrapper {
   float: left;
   padding: 10px;
   width: 200px;
-  border: 1px solid red;
 }
 
-.rooms-aside-list{
-  list-style-type: none;
-  margin: 0;
+.rooms-aside-input-wrapper {
+  border-bottom: 1px solid rgb(180, 9, 214);
+  padding: 5px 0;
+  padding-bottom: 20px;
+  width: 100%;
+  height: 70px;
+}
+
+.rooms-aside-input {
+  height: 25px;
+  padding: 3px;
+}
+
+.rooms-aside-button {
+  font-size: 12px;
+  background-color: rgb(180, 9, 214);
+  color: #ffffff;
+  cursor: pointer;
+  height: 35px;
+  width: 180px;
+  text-transform: uppercase;
+  margin-top: 3px;
+  border: 0;
+  outline: 0;
+}
+
+.rooms-aside-button:hover {
+  background-color: rgb(195, 8, 233);
+}
+
+.rooms-aside-list-wrapper {
+  position: relative;
+}
+
+.rooms-aside-list {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 10px;
   padding: 0;
+  width: 130px;
+  color: rgb(180, 9, 214);
+  cursor: pointer;
+}
+
+.rooms-aside-list:hover {
+  text-decoration: underline;
+}
+
+.rooms-aside-delete {
+  position: absolute;
+  right: 20px;
+  font-size: 12px;
+  border-radius: 12px;
+  border: 0;
+  background-color: rgb(180, 9, 214);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.rooms-aside-delete:hover {
+  background-color: rgb(195, 8, 233);
 }
 
 .rooms-main-wrapper {
-  border: 1px solid black;
   float: left;
   width: 500px;
-  height: 500px;
+  height: 600px;
   padding: 10px;
 }
 
 .rooms-main-chat-wrapper {
-  height: 400px;
+  height: 450px;
   overflow: auto;
   margin-bottom: 20px;
 }
@@ -59,12 +160,13 @@ ul {
 .rooms-main-user {
   font-size: 12px;
   font-weight: 600;
+  margin-bottom: 2px;
 }
 
 .rooms-main-message {
   width: 95%;
-  border: 1px solid red;
-  padding: 5px;
+  border: 1px solid rgb(180, 9, 214);
+  padding: 10px 5px;
   font-size: 16px;
   margin-bottom: 15px;
   border-radius: 5px;
@@ -75,13 +177,19 @@ ul {
 }
 
 .rooms-main-chat-input {
-  width: 345px;
+  width: 340px;
+  padding-left: 3px;
   height: 40px;
+  font-size: 16px;
+  line-height: 10px;
+  outline: 0;
 }
 
 .rooms-main-chat-button {
-  border: 2px solid blue;
-  background-color: transparent;
+  background-color: rgb(180, 9, 214);
+  color: #ffffff;
+  border: 0;
+  outline: 0;
   padding: 10px;
   cursor: pointer;
   height: 46px;
@@ -89,9 +197,22 @@ ul {
   text-transform: uppercase;
 }
 
+.rooms-main-chat-button:hover {
+  background-color: rgb(195, 8, 233);
+}
+
+.rooms-main-chat-button:disabled {
+  background-color: rgb(196, 196, 196);
+  cursor: not-allowed;
+}
+
 .rooms-aside-right-wrapper {
-  border: 1px solid green;
   float: left;
   width: 200px;
   padding: 10px;
+}
+
+.rooms-aside-right-list {
+  list-style-type: none;
+  margin: 5px 0;
 }

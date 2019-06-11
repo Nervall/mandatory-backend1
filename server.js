@@ -15,11 +15,10 @@ fs.readFile('./data.json', 'utf-8', (err, data) => {
 	}
   data = JSON.parse(data);
   });
-console.log(data)
 
-let counter = 100;
 function getID() {
-  return counter++;
+  let number = Math.floor((Math.random() * 10000) + 1);
+  return number;
 }
 
 /*
@@ -34,15 +33,6 @@ function getID() {
 						]
 				}
     },
-		{ "room" : {
-			"id": 2, 
-			"name": "Room2",
-			"chat": [
-					{ "user": "Anders", "message": "hey babariba" },
-					{ "user": "Agon", "message": "Yo whats up" }
-					]
-			}
-    }
     ]
  }
 */
@@ -84,54 +74,7 @@ app.post('/rooms/', (req, res) => {
         res.status(201).json(data);
       });
 });
-/*
-app.post('/rooms/:id/', (req, res) => {
-  const body = req.body;
-  const id = parseInt(req.params.id);
-  let roomId = data.rooms.findIndex(data => data.room.id === id) 
-  /*if (!body.name || typeof id !== Number || !req.params.id) {
-    res.status(400).end();
-    return;
-  }
-  room.chat.push({ user: body.user, message: body.message })
-    /*const room = {
-      id: roomId,
-      name: roomName,
-      chat: [ { user: body.user, message: body.message } ]
-    };
-    data.rooms.push({room})
-    fs.writeFile('data.json', JSON.stringify(data), 'utf-8', (err) => {
-      if (err) {
-        console.log(err)
-      }
-        res.status(201).json({room});
-      });
-});
 
-
-app.post('/rooms/:id/', (req, res) => {
-  const body = req.body;
-  const id = parseInt(req.params.id);
-  let roomId = data.rooms.findIndex(data => data.room.id === id) 
-  if (!body.name || typeof id !== Number || !req.params.id) {
-    res.status(400).end();
-    return;
-  }
-  let room = {
-    id: roomId,
-    name: roomName,
-    chat: [ { user: body.user, message: body.message } ]
-  };
-  data.rooms.push({room})
-  fs.writeFile('data.json', JSON.stringify(data), 'utf-8', (err) => {
-    if (err) {
-      console.log(err)
-    }
-      res.status(201).json({room});
-    });
-});
-
-*/
 
 app.delete('/rooms/:id', (req, res) => {
   const id = parseInt(req.params.id);
@@ -152,28 +95,14 @@ app.delete('/rooms/:id', (req, res) => {
 });
 
 
-
-io.on('connection', (socket) => {
-    console.log('a user connected');
-
-    socket.on('add user', (username) => {
-      socket.username = username;
-    })
+  io.on('connection', (socket) => {
     socket.on('new message', (message) => {
-      console.log(message)
-      io.emit('new message', message.chat )
+      io.emit('new message', message)
       let id = message.id
-
       let roomIndex = data.rooms.find(x => x.room.id === id) 
         if (roomIndex !== -1) {
-        //console.log(roomIndex.room)
-        //console.log(roomIndex.room.chat)
-        //console.log(data.rooms)
-        let test = roomIndex.room.chat
-        test.push(message.chat)
-        //console.log(test)
-        //console.log(roomIndex.room.chat)
-          //console.log(data)
+        let newChatMessage = roomIndex.room.chat
+        newChatMessage.push(message.chat)
          
          fs.writeFile('data.json', JSON.stringify(data), 'utf-8', (err) => {
           if (err) {
@@ -182,12 +111,7 @@ io.on('connection', (socket) => {
           })        
       } 
     });
-  
-    socket.on('disconnect', () => {
-      console.log('user disconnected')
-    })
   });
-
 
 
 http.listen(port, () => {

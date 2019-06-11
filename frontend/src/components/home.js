@@ -28,18 +28,19 @@ const Home = () => {
   return (
 		<div className='home-wrapper'>
 			<form className='home-form-wrapper'>
-				<label htmlFor='name'>Ditt chatnamn</label><br />
+				<label className="home-form-label" htmlFor='name'></label><br />
 				<input 
 				type='text' 
 				name='name' 
 				placeholder='Your chatname' 
+				className='home-form-input'
 				onChange={ handleUserName } ></input><br />
-				<button onClick={ handleClick }>Start chat</button>
+				<button className="home-form-button" onClick={ handleClick }>Start chat</button>
 				<p>{ error } </p> 
 			</form>     
 		</div>
 	)} else {
-		return ( <Rooms user={ userName }  ></Rooms> )
+		return ( <Rooms user={ userName }></Rooms> )
 	}
 }
 
