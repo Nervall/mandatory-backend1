@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import io from 'socket.io-client';
 import '../App.css';
-//let socket = io('/rooms');
+const socket = io('http://localhost:3030');
 
 
 
@@ -17,6 +17,10 @@ const Rooms = (props) => {
 	const inputRoom = useRef(null);
 	const chatWindow = useRef(null);
 
+	let roomUsers = [];
+	const user = props.user;
+
+
 	//let roomId;
 	//let NameOfRoom;
 
@@ -28,19 +32,18 @@ const Rooms = (props) => {
 			.catch((error) => {
 				console.log(error);
 			})
-		}, []);
+	}, []);
 
-/*
-useEffect(() => {
-			socket =io('/rooms')
-				socket.on('new_message', (data) => {
-					console.log(data)
-					updateChatData([...chatData, data])
-				});
-			}, []);
-*/	
-	const user = props.user;
-	//console.log(data)
+	useEffect(() => {
+		socket.on('new message', (data) => {
+			console.log(data)
+			updateChatData([...chatData, data])
+		});
+	}, [chatData]);
+
+	useEffect(() => { 
+		return () => { socket.disconnect() }
+	},[]);
 
 
 	const roomName = (e) => {
@@ -104,20 +107,14 @@ useEffect(() => {
 		}
 
 		const sendMessage = (e) => {
-			// får id {id: 1, name: "room", chat : []}
-			const socket = io();
 			socket.emit('add user', user);
-			//console.log(roomData.id)
 			let data = {
 				id: roomData.id,
 				name: roomData.name,
 				chat: 
 					{user: user, message: chatText}
-				
-
 			}
-			socket.emit('new message', data)
-			updateChatData([...chatData, {user: user, message: chatText} ])		
+			socket.emit('new message', data)	
 		} 
 		
 
@@ -125,7 +122,7 @@ useEffect(() => {
 			//console.log(data.room.id)
 			return(
 			<ul key={ data.room.id }>
-				<li key={ data.room.id }> <Link to="/" onClick={ getRoomChat } id={data.room.id}> { data.room.name } </Link><span id={ data.room.id } onClick={ deleteRoom }> x</span></li>
+				<li key={ data.room.id } className="rooms-aside-list"> <Link to="/" onClick={ getRoomChat } id={data.room.id}> { data.room.name } </Link><span id={ data.room.id } onClick={ deleteRoom }> x</span></li>
 			</ul>
 
 			)}
@@ -134,26 +131,39 @@ useEffect(() => {
 				for(let chat in chatData) {
 					return(
 						<div ref={ chatWindow }>
-						<div>{ chatData.user }</div>
-						<div>{ chatData.message }</div>
+						<div className="rooms-main-user">{ chatData.user }</div>
+						<div className="rooms-main-message">{ chatData.message }</div>
 						</div>
 					)
 				}
-				//socket.on('new message', (data))
-				//console.log(data)
+				
 			}
 
 		let renderUser = (chatData) => {
-			for(let chat in chatData) {
-				//console.log(chatData)
+				for(let chat in chatData) {
+				//console.log(chatData.user)
+				//console.log(chatData[chat])
+				
+				roomUsers.push(chatData.user)
+				
+				}
+				 let uniqueArr = [...new Set(roomUsers)]
+					//console.log(uniqueArr)
+					
+					//let arrValue = uniqueArr.map(x => 
+					//	<li>{x}</li>
+					//)
+					//console.log(arrValue)
+
 				return(
 					<ul>
-						<li>{ chatData.user }</li>
+						{uniqueArr}
 					</ul>
 				)
-			}
-		}
 
+		}
+console.log(chatData)		
+//console.log(roomUsers)
 		let mapRooms = data.map(renderRooms)
 		let mapChat = chatData.map(renderChat)
 		let users = chatData.map(renderUser);
@@ -173,10 +183,10 @@ useEffect(() => {
 			</div>
 		</aside>
 		<main>
-			<div className='rooms-main-wrapper'>Det här är main
+			<div className='rooms-main-wrapper'>
 			<div className='rooms-main-chat-wrapper'>{ mapChat }</div>
-			<div className='rooms-main-chat-input'>
-				<input type="text" onChange={ handleText } /><button onClick={ sendMessage }>Send message</button>
+			<div className='rooms-main-chat-message-wrapper'>
+				<input className='rooms-main-chat-input' type="text" onChange={ handleText } /><button className='rooms-main-chat-button' onClick={ sendMessage }>Send message</button>
 			</div>
 			</div>
 		</main>
