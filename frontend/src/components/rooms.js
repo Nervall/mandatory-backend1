@@ -75,7 +75,7 @@ const Rooms = (props) => {
 				const newData = [...data]
     		for(let i = 0; i < newData.length; i++){
       		if (newData[i].room.id === id){
-					newData.splice(i, 1)
+				newData.splice(i, 1)
       } 
     }  
 		updateData(newData)
@@ -121,10 +121,9 @@ const Rooms = (props) => {
 		
 
 		let renderRooms = (data) => {
-			let number = Math.floor((Math.random() * 10000) + 1);
 			return(
-				<div key={ number }className="rooms-aside-list-wrapper">
-				<li key={ number } className="rooms-aside-list" onClick={ getRoomChat } id={data.room.id}> { data.room.name } <button id={ data.room.id } onClick={ deleteRoom } className="rooms-aside-delete"> x</button></li>
+				<div key={ data.room.id }className="rooms-aside-list-wrapper">
+				<li key={ data.room.id } className="rooms-aside-list" onClick={ getRoomChat } id={data.room.id}> { data.room.name } <button id={ data.room.id } onClick={ deleteRoom } className="rooms-aside-delete"> x</button></li>
 				</div>
 			)}
 

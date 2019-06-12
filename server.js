@@ -57,7 +57,7 @@ app.get('/rooms/:id', (req, res) => {
 
 app.post('/rooms/', (req, res) => {
   const body = req.body;
-  if (!body.name || typeof body.name !== 'string') {
+  if (!body.name || typeof body.name !== 'string' || body.name.length >= 20) {
     res.status(400).end();
     return;
   }
