@@ -45,6 +45,9 @@ const Rooms = (props) => {
 				scrollBottom();
 			} 
 		})
+		return () => {
+			socket.off('new message')
+		}
 	}, [chatData, roomId]);
 
 	const roomName = (e) => {
@@ -123,7 +126,7 @@ const Rooms = (props) => {
 		let renderRooms = (data) => {
 			return(
 				<div key={ data.room.id }className="rooms-aside-list-wrapper">
-				<li key={ data.room.id } className="rooms-aside-list" onClick={ getRoomChat } id={data.room.id}> { data.room.name } <button id={ data.room.id } onClick={ deleteRoom } className="rooms-aside-delete"> x</button></li>
+				<li key={ toString(data.room.id) } className="rooms-aside-list" onClick={ getRoomChat } id={data.room.id}> { data.room.name } <button id={ data.room.id } onClick={ deleteRoom } className="rooms-aside-delete"> x</button></li>
 				</div>
 			)}
 
